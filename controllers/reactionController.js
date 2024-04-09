@@ -1,25 +1,16 @@
-const mongoose = require('mongoose');
+const Reaction = require('../models/reaction');
 
-const reactionSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
+const createReaction = async (req, res) => {
+  try{
+    const { userId, thoughtId, reactionBody } = req.body;
+    const reaction = new Reaction({ userId, thoughtId, reactionBody });
+    const savedReaction = await reaction.save();
+    
+    res.status(201).json(savedReaction);
+  }catch (err) {
+    console.error('Problem creating reaction', err);
+    res.status(500).json(err);
+  }
+};
 
-  thoughtId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Thought',
-    required: true,
-  },
-
-  reactionBody: {
-    type: String,
-    required: true,
-    maxlength: 280,
-  },
-});
-
-const Reaction = mongoose.model('Reaction', reactionSchema);
-
-module.exports = Reaction;
+module.exports = { createReaction };
