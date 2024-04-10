@@ -1,7 +1,7 @@
 const { Thought, User, Reaction } = require('../models');
 const {Types} = require('mongoose');
 
-// Define the ThoughtController object, which contains methods for handling various API requests related to thoughts
+// Define the ThoughtController object
 const ThoughtController = {
   async getAllThoughts(req, res) {
     try {
